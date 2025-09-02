@@ -140,6 +140,11 @@ The project includes a GitHub Actions workflow defined in `.github/workflows/ci.
   5. **Run ETL Pipeline**: Executes the `csv_to_db_etl` flow with environment variables for input/output paths.
   6. **Upload Artifacts**: Uploads `output/` files and `*.db` files as artifacts, retained for 7 days.
 
+ Click the link to download the uploaded data:
+ 
+<img width="1370" height="696" alt="Screenshot 2025-09-02 at 21 56 18" src="https://github.com/user-attachments/assets/39d64a37-54d7-4e40-ac4d-b1123d9ec4e3" />
+
+
 - **Environment Handling**:
   The workflow uses the `environment` input to set the `ENVIRONMENT` variable, defaulting to `production`. This allows environment-specific configurations if extended in the future.
 
