@@ -110,6 +110,12 @@ Follow these steps to set up and run the project locally:
    - Monitor deployments under the "Deployments" tab
    - View work pools under the "Work Pools" tab
 
+<img width="1449" height="232" alt="Screenshot 2025-09-02 at 21 49 43" src="https://github.com/user-attachments/assets/a46437f1-93f2-4466-aa5d-d84c15be7fb4" />
+
+
+<img width="1709" height="867" alt="Screenshot 2025-09-02 at 21 49 56" src="https://github.com/user-attachments/assets/417b9a76-ae92-4e61-b967-01ae3dd1b762" />
+
+
 ## Running the ETL Pipeline Manually
 To manually deploy the ETL pipeline, navigate to the `prefect/flows` directory and run:
 ```bash
