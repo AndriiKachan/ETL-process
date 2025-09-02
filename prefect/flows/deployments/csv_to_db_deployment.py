@@ -7,8 +7,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from csv_to_db_flow import csv_to_db_etl
 
 if __name__ == "__main__":
-    # Get base path from environment variable or use default
-    base_path = Path(os.getenv("ETL_BASE_PATH", "/Users/andriikachan/ETL-process"))
+    base_path = Path(os.getenv("ETL_BASE_PATH", Path.cwd()))
 
     deployment = csv_to_db_etl.from_source(
         source=str(Path(__file__).parent.parent),
