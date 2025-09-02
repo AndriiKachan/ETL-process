@@ -48,6 +48,7 @@ jobs:
           OUTPUT_TABLE: agg_trades_weekly
           REPORT_OUTPUT_PATH: ${{ github.workspace }}/output
         run: |
+          cd .github/workflows/scripts
           python run_etl.py
 
       - name: Upload artifacts
