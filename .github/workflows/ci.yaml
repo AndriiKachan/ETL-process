@@ -1,0 +1,71 @@
+name: ETL Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run in'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+
+jobs:
+  run-etl:
+    name: Run ETL Pipeline
+    runs-on: ubuntu-latest
+    
+    env:
+      ENVIRONMENT: ${{ github.event.inputs.environment || 'production' }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install prefect pandas sqlalchemy matplotlib seaborn pendulum
+
+      - name: Create directories for data and output
+        run: |
+          mkdir -p data output
+
+      - name: Run ETL pipeline
+        env:
+          INPUT_CSV: ${{ github.workspace }}/data/trades.csv
+          OUTPUT_DB: ${{ github.workspace }}/agg_result.db
+          OUTPUT_TABLE: agg_trades_weekly
+          REPORT_OUTPUT_PATH: ${{ github.workspace }}/output
+        run: |
+          python -c "
+          from csv_to_db_flow import csv_to_db_etl
+          import os
+          
+          result = csv_to_db_etl(
+              input_csv=os.environ['INPUT_CSV'],
+              output_db=os.environ['OUTPUT_DB'],
+              output_table=os.environ['OUTPUT_TABLE'],
+              report_output_path=os.environ['REPORT_OUTPUT_PATH']
+          )
+          print('ETL execution result:', result)
+          "
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: etl-output-${{ github.run_id }}
+          path: |
+            output/
+            *.db
+          retention-days: 7
